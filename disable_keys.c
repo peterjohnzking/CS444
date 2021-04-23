@@ -3,6 +3,19 @@
 #include <linux/interrupt.h>
 #include <linux/delay.h>
 
+
+static inline void outb(unsigned short port, unsigned char value)
+{
+    __asm__ __volatile__ ("outb %1, %0" : : "dN" (port), "a" (value));
+
+}
+static inline unsigned char inb(unsigned short port)
+{
+    unsigned char value;
+    __asm__ __volatile__ ("inb %1, %0" : "=a"(value) : "Nd"(port));
+    return value;
+}
+
 MODULE_LICENSE("GPL");
 int sleep_duration = 10000;
 module_param(sleep_duration, int, S_IRUGO);
